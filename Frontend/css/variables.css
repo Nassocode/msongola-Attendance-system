@@ -1,0 +1,18 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+  color: #1c2d43;
+  background: #f2f5fa;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  --green: #174477;
+  --green-dark: #102b4c;
+  --muted: #66758a;
+  --line: #dbe3ed;
+  --surface: #ffffff;
+  --surface-soft: #f3f6fa;
+  --danger: #9a352f;
+  --accent: #f5b800;
+  --accent-dark: #d69300;
+  --accent-soft: #fff2c2;
+}

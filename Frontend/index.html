@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174c3c">
+  <title>Msongola Attendance</title>
+  <link rel="icon" type="image/png" href="assets/images/school-logo.png">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/components.css">
+  <script src="js/api.js" defer></script>
+  <script src="js/app.js" defer></script>
+</head>
+<body class="auth-page">
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Msongola Secondary School attendance home">
+        <img src="assets/images/school-logo.png" alt="Msongola Secondary School logo">
+        <span class="brand-copy"><strong>Msongola Secondary School</strong><small>Attendance</small></span>
+      </a>
+      <div id="account" class="account" hidden>
+        <button id="sidebar-toggle" class="button button-quiet sidebar-toggle" type="button" aria-label="Open navigation menu" aria-controls="sidebar" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+        </button>
+        <span id="account-name"></span>
+        <button id="password-toggle" class="button button-quiet" type="button">Change password</button>
+        <button id="logout-button" class="button button-quiet" type="button">Sign out</button>
+      </div>
+    </header>
+
+    <button id="sidebar-backdrop" class="sidebar-backdrop" type="button" aria-label="Close navigation menu" hidden></button>
+    <p id="notice" class="notice" role="status" aria-live="polite" hidden></p>
+
+    <section id="login-view" class="login-layout">
+      <div class="login-brand">
+        <div class="login-brand-content">
+          <div class="login-school-brand">
+            <img class="login-school-logo" src="assets/images/school-logo.png" alt="Msongola Secondary School crest">
+            <div class="login-school-identity">
+              <p class="login-school-name">Msongola Secondary School</p>
+              <p class="login-motto">Education is light</p>
+            </div>
+          </div>
+          <h1>Attendance, managed with care.</h1>
+          <p class="login-intro">Record daily attendance and keep families informed with clear monthly updates.</p>
+          <p class="login-note">Parents and guardians do not need an account. Attendance summaries are sent to their registered phone numbers.</p>
+        </div>
+      </div>
+
+      <div class="login-panel">
+        <div class="login-panel-content">
+          <p class="eyebrow">Staff access</p>
+          <h2>Sign in to continue</h2>
+          <p class="muted">For school administrators and teachers only.</p>
+          <form id="login-form" class="stack">
+            <label>Username <input name="username" type="text" autocomplete="username" minlength="3" maxlength="50" required></label>
+            <label>Password <input name="password" type="password" autocomplete="current-password" required></label>
+            <button class="button" type="submit">Sign in</button>
+          </form>
+          <p class="login-support">Use the username and password provided by your school administrator.</p>
+          <footer class="site-footer login-footer">
+            <a href="tel:+255616957125">Phone Number: +255 616 957 125</a>
+            <a href="mailto:nassoroamour63@gmail.com">Email: nassoroamour63@gmail.com</a>
+            <span>Developed by: Nassoro Amour Shekulamba</span>
+          </footer>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboard-view" class="dashboard-layout" hidden>
+      <aside id="sidebar" class="sidebar" aria-label="Dashboard navigation">
+        <div class="sidebar-heading">
+          <div class="sidebar-heading-row">
+            <img class="sidebar-logo" src="assets/images/school-logo.png" alt="">
+            <span class="sidebar-school-name">Msongola Secondary School</span>
+            <button id="sidebar-close" class="sidebar-close" type="button" aria-label="Close navigation menu">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"></path></svg>
+            </button>
+          </div>
+          <span id="sidebar-workspace" class="sidebar-kicker">ATTENDANCE WORKSPACE</span>
+        </div>
+        <p class="sidebar-label">MENU</p>
+        <nav class="sidebar-nav" aria-label="Dashboard sections">
+          <a class="sidebar-link" data-sidebar-role="admin" href="#admin-overview-page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"></rect><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"></rect><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"></rect></svg>
+            <span>Overview</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="teacher" href="#attendance-section">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M8 3v4m8-4v4M4 10h16m-11 5 2 2 4-4"></path></svg>
+            <span>Attendance</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="academic_master" href="#academic-attendance-review">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M8 3v4m8-4v4M4 10h16m-11 5 2 2 4-4"></path></svg>
+            <span>Attendance review</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin" href="#setup-section">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20V8l9-5 9 5v12M8 20v-6h8v6M3 9h18"></path></svg>
+            <span>Classes &amp; students</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin" href="#team-section">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5v1"></path></svg>
+            <span>Staff &amp; teachers</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin,teacher,academic_master" href="#staff-report-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h8"></path></svg>
+            <span>Monthly reports</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin,teacher,academic_master" href="#profile-page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>
+            <span>My profile</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin,teacher,academic_master" href="#notifications-page">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></svg>
+            <span>Notifications</span><span id="notification-count" class="notification-count" hidden></span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin" href="#sms-logs-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v12H9l-5 4zM8 9h8M8 13h5"></path></svg>
+            <span>Guardian SMS</span>
+          </a>
+          <a class="sidebar-link" data-sidebar-role="admin,teacher,academic_master" href="#password-card">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 19 6v5c0 4.7-2.8 8-7 10-4.2-2-7-5.3-7-10V6zM9 12l2 2 4-4"></path></svg>
+            <span>Account settings</span>
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <span id="sidebar-avatar" class="sidebar-avatar" aria-hidden="true">MS</span>
+          <span class="sidebar-user">
+            <strong id="sidebar-name"></strong>
+            <small id="sidebar-role"></small>
+          </span>
+        </div>
+      </aside>
+
+      <div class="dashboard-content">
+      <div class="page-heading dashboard-heading" id="dashboard-top">
+        <div>
+          <p class="eyebrow" id="role-label"></p>
+          <h1 id="page-title">Attendance</h1>
+          <p id="dashboard-subtitle" class="muted">A clear view of your school attendance.</p>
+        </div>
+        <span id="today-label" class="date-chip"></span>
+      </div>
+
+      <section id="admin-overview-page" class="dashboard-page" data-page-roles="admin" hidden>
+      <section id="admin-welcome" class="admin-welcome" hidden aria-label="Administrator dashboard welcome">
+        <div class="admin-welcome-copy">
+          <p class="admin-welcome-kicker">MSONGOLA SECONDARY SCHOOL</p>
+          <h2>Karibu, <span id="admin-welcome-name">Administrator</span></h2>
+          <p>Oversee school attendance reports, keep school records up to date, and support your staff from one place.</p>
+        </div>
+        <nav class="admin-quick-links" aria-label="Quick actions">
+          <a href="#staff-report-card">
+            <span class="quick-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h8"></path></svg>
+            </span>
+            <span><strong>Attendance reports</strong><small>Review submitted school records</small></span>
+            <span class="quick-link-arrow" aria-hidden="true">›</span>
+          </a>
+          <a href="#setup-section">
+            <span class="quick-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"></path></svg>
+            </span>
+            <span><strong>Classes &amp; students</strong><small>Manage the school directory</small></span>
+            <span class="quick-link-arrow" aria-hidden="true">›</span>
+          </a>
+          <a href="#team-section">
+            <span class="quick-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5v1"></path></svg>
+            </span>
+            <span><strong>Staff &amp; teachers</strong><small>Set up staff access</small></span>
+            <span class="quick-link-arrow" aria-hidden="true">›</span>
+          </a>
+          <a href="#staff-report-card">
+            <span class="quick-link-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h8"></path></svg>
+            </span>
+            <span><strong>Monthly reports</strong><small>Review attendance summaries</small></span>
+            <span class="quick-link-arrow" aria-hidden="true">›</span>
+          </a>
+        </nav>
+      </section>
+
+      <section id="admin-overview" class="stats-grid" hidden aria-label="School overview">
+        <article class="stat-card">
+          <span class="stat-icon stat-icon-students" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5v1"></path></svg></span>
+          <span>Enrolled students</span><strong id="stat-students">0</strong><small>Currently active</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon stat-icon-classes" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M8 20v-6h8v6M3 9h18"></path></svg></span>
+          <span>Classes</span><strong id="stat-classes">0</strong><small>School groups</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon stat-icon-teachers" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M16 5a3.5 3.5 0 0 1 0 6.8M18 14a5.5 5.5 0 0 1 3.5 5v1"></path></svg></span>
+          <span>Teachers</span><strong id="stat-teachers">0</strong><small>Active accounts</small>
+        </article>
+        <article class="stat-card">
+          <span class="stat-icon stat-icon-attendance" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="16" rx="2"></rect><path d="M8 3v4m8-4v4M4 10h16m-11 5 2 2 4-4"></path></svg></span>
+          <span>Attendance today</span><strong id="stat-attendance">0</strong>
+          <progress id="attendance-coverage" max="100" value="0" aria-label="Today's attendance register completion">0%</progress>
+          <small id="attendance-coverage-label">No students enrolled yet.</small>
+        </article>
+      </section>
+      </section>
+
+      <section id="password-card" class="card dashboard-page" data-page-roles="admin,teacher,academic_master" hidden>
+        <h2>Change password</h2>
+        <form id="password-form" class="inline-form">
+          <label>Current password <input name="currentPassword" type="password" autocomplete="current-password" required></label>
+          <label>New password <input name="newPassword" type="password" minlength="6" autocomplete="new-password" aria-describedby="password-help" required></label>
+          <p id="password-help" class="field-help">At least 6 characters, no more than 72 UTF-8 bytes, and different from your current password.</p>
+          <button class="button" type="submit">Update password</button>
+        </form>
+      </section>
+
+      <section id="profile-page" class="dashboard-page" data-page-roles="admin,teacher,academic_master" hidden>
+        <article class="profile-hero">
+          <div class="profile-avatar" id="profile-avatar" aria-hidden="true">MS</div>
+          <div class="profile-hero-copy">
+            <p class="profile-kicker">STAFF PROFILE</p>
+            <h2 id="profile-display-name">My profile</h2>
+            <p id="profile-role" class="profile-role"></p>
+          </div>
+          <span class="profile-status"><span aria-hidden="true"></span> Active account</span>
+        </article>
+        <article class="card profile-card">
+          <div class="profile-section-heading">
+            <div><p class="eyebrow">Personal information</p><h2>Account details</h2></div>
+            <p class="muted">Keep your contact information up to date. Your username is used to sign in.</p>
+          </div>
+          <form id="profile-form" class="profile-form">
+            <label>Full name <input name="fullName" maxlength="160" autocomplete="name" required></label>
+            <label>Username <input name="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9._\-]+" autocomplete="username" required></label>
+            <label>Phone number <input name="phone" type="tel" inputmode="tel" maxlength="16" pattern="\+[1-9][0-9]{7,14}" title="Use international format, for example +255712345678." autocomplete="tel" required></label>
+            <p class="field-help profile-phone-help">Use international phone format, for example +255712345678.</p>
+            <div class="profile-actions">
+              <button class="button" type="submit">Save profile</button>
+              <button id="profile-reset" class="button button-quiet" type="button">Discard changes</button>
+            </div>
+          </form>
+        </article>
+        <article class="profile-security-note">
+          <span class="profile-security-icon" aria-hidden="true">✓</span>
+          <div><strong>Keep your account secure</strong><p>Change your password regularly and never share it with anyone.</p></div>
+          <a href="#password-card" class="profile-security-link">Change password</a>
+        </article>
+      </section>
+
+      <section id="notifications-page" class="card dashboard-page" data-page-roles="admin,teacher,academic_master" hidden>
+        <div class="report-heading">
+          <div><h2>Notifications</h2><p class="muted">Attendance reminders and Academic Office review updates for your account.</p></div>
+          <button id="refresh-notifications" class="button button-quiet" type="button">Refresh</button>
+        </div>
+        <div id="notification-list" aria-live="polite"><p class="empty">Loading notifications…</p></div>
+      </section>
+
+      <section id="staff-view" hidden>
+        <section id="attendance-section" class="admin-section dashboard-page" data-page-roles="teacher" hidden>
+          <div class="section-heading">
+            <div><p class="eyebrow">Daily class register</p><h2>Submit attendance</h2></div>
+            <p class="muted">Mark every student in your assigned class, then submit the complete register to the Academic Master office.</p>
+          </div>
+          <section id="teacher-welcome" class="admin-welcome role-welcome" hidden aria-label="Teacher dashboard welcome">
+            <div class="admin-welcome-copy">
+              <p class="admin-welcome-kicker">TEACHING WORKSPACE</p>
+              <h2>Karibu, <span id="teacher-welcome-name">Teacher</span></h2>
+              <p>Take today's class register, record each student's attendance, and review monthly progress.</p>
+            </div>
+            <nav class="admin-quick-links" aria-label="Teacher quick actions">
+              <a href="#staff-report-card">
+                <span class="quick-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h8"></path></svg></span>
+                <span><strong>Monthly report</strong><small>Review attendance summaries</small></span>
+                <span class="quick-link-arrow" aria-hidden="true">›</span>
+              </a>
+              <a href="#profile-page">
+                <span class="quick-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
+                <span><strong>My profile</strong><small>Check your contact details</small></span>
+                <span class="quick-link-arrow" aria-hidden="true">›</span>
+              </a>
+            </nav>
+          </section>
+          <article class="card attendance-card">
+            <form id="attendance-filter" class="inline-form">
+              <label>Class <select id="attendance-class" required></select></label>
+              <label>Date <input id="attendance-date" type="date" required></label>
+              <button class="button" type="submit">Load assigned class</button>
+            </form>
+            <form id="attendance-form" class="stack">
+              <div id="roster-tools" class="roster-tools" hidden>
+                <label class="roster-search">Find a student <input id="roster-search" type="search" placeholder="Name or student number" autocomplete="off"></label>
+                <p id="attendance-progress" class="attendance-progress" role="status" aria-live="polite"></p>
+              </div>
+              <div id="roster" class="roster"></div>
+              <button id="save-attendance" class="button" type="submit" disabled>Submit full register to Academic Master</button>
+            </form>
+          </article>
+        </section>
+
+        <section id="setup-section" class="admin-section dashboard-page" data-page-roles="admin" hidden>
+          <div class="section-heading">
+            <div><p class="eyebrow">School directory</p><h2>Classes &amp; students</h2></div>
+            <p class="muted">Organize classes and save a guardian contact for monthly SMS updates.</p>
+          </div>
+          <div class="columns setup-forms">
+            <article id="class-card" class="card setup-card class-setup-card">
+              <div class="setup-card-heading">
+                <span class="setup-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M3 20V8l9-5 9 5v12M8 20v-6h8v6M3 9h18"></path></svg>
+                </span>
+                <div><h2>Create a class</h2><p>Set up a class before enrolling its students.</p></div>
+              </div>
+              <form id="class-form" class="stack class-create-form">
+                <label>Class name <input name="name" maxlength="100" placeholder="For example, Form 1A" required></label>
+                <button class="button" type="submit"><span aria-hidden="true">+</span> Create class</button>
+              </form>
+            </article>
+
+            <article id="student-card" class="card setup-card student-setup-card">
+              <div class="setup-card-heading">
+                <span class="setup-card-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20v-1a6.5 6.5 0 0 1 13 0v1M18 8v6m-3-3h6"></path></svg>
+                </span>
+                <div><h2>Enroll a student</h2><p>Add student details and a guardian phone for monthly SMS updates.</p></div>
+              </div>
+              <form id="student-form" class="stack student-enrollment-form">
+                <label>Student number <input name="studentNumber" maxlength="40" placeholder="School admission number" required></label>
+                <label>Student name <input name="fullName" maxlength="160" placeholder="Full name" required></label>
+                <label>Class <select name="classId" id="student-class" required></select></label>
+                <label>Guardian name <input name="guardianName" maxlength="160" placeholder="Parent or guardian full name" required></label>
+                <label class="guardian-phone-field">Guardian phone <input name="guardianPhone" type="tel" inputmode="tel" autocomplete="tel" maxlength="16" pattern="\+[1-9][0-9]{7,14}" title="Use international format, for example +255712345678." placeholder="+255712345678" required></label>
+                <p class="field-help guardian-phone-help">Use international format, e.g. +255712345678. Guardians receive monthly attendance summaries by SMS.</p>
+                <button class="button" type="submit">Enroll student</button>
+              </form>
+            </article>
+          </div>
+          <article class="card directory-card">
+            <div class="directory-heading">
+              <div class="directory-title"><span class="directory-title-icon" aria-hidden="true">01</span><div><h2>Class directory</h2><p class="muted">Browse classes and see how many active students are enrolled.</p></div></div>
+              <button id="refresh-directory" class="button button-quiet" type="button">Refresh directory</button>
+            </div>
+            <div id="class-directory" aria-live="polite"></div>
+          </article>
+          <article class="card directory-card">
+            <div class="directory-heading">
+              <div class="directory-title"><span class="directory-title-icon" aria-hidden="true">02</span><div><h2>Student directory</h2><p id="student-directory-count" class="muted">Active enrolled students.</p></div></div>
+              <div class="directory-filters">
+                <label>Class
+                  <select id="directory-class-filter">
+                    <option value="">All classes</option>
+                  </select>
+                </label>
+                <label>Search students
+                  <input id="directory-student-search" type="search" placeholder="Name or student number" autocomplete="off">
+                </label>
+              </div>
+            </div>
+            <div id="student-directory" aria-live="polite"></div>
+          </article>
+        </section>
+
+        <section id="team-section" class="admin-section dashboard-page" data-page-roles="admin" hidden>
+          <div class="section-heading">
+            <div><p class="eyebrow">Staff access</p><h2>Teacher accounts &amp; assignments</h2></div>
+            <p class="muted">Assign teachers to the classes they manage.</p>
+          </div>
+          <div class="columns">
+            <article id="teacher-card" class="card">
+              <h2>Create a teacher account</h2>
+              <form id="teacher-form" class="stack">
+                <label>Username <input name="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9._\-]+" autocomplete="username" required></label>
+                <label>Teacher name <input name="fullName" maxlength="160" required></label>
+                <label>Phone number <input name="phone" type="tel" inputmode="tel" maxlength="16" pattern="\+[1-9][0-9]{7,14}" title="Use international format, for example +255712345678." placeholder="+255712345678" autocomplete="tel" required></label>
+                <label>Initial password <input name="password" type="password" minlength="6" autocomplete="new-password" aria-describedby="teacher-password-help" required></label>
+                <p id="teacher-password-help" class="field-help">At least 6 characters and no more than 72 UTF-8 bytes.</p>
+                <button class="button button-secondary" type="submit">Create teacher</button>
+              </form>
+            </article>
+
+            <article id="assignment-card" class="card" hidden>
+              <h2>Assign teacher to a class</h2>
+              <form id="assignment-form" class="stack">
+                <label>Class <select id="assignment-class" required></select></label>
+                <label>Teacher <select id="assignment-teacher" required></select></label>
+                <button class="button button-secondary" type="submit">Assign teacher</button>
+              </form>
+            </article>
+          </div>
+          <article id="academic-master-card" class="card">
+            <div class="directory-heading">
+              <div><h2>Academic master accounts</h2><p class="muted">Create read-only accounts for attendance review and reports.</p></div>
+            </div>
+            <div class="columns">
+              <form id="academic-master-form" class="stack">
+                <p class="field-help">The academic master must sign in with this username, not their full name. Usernames must be unique.</p>
+                <label>Username <input name="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9._\-]+" autocomplete="username" required></label>
+                <label>Academic master name <input name="fullName" maxlength="160" required></label>
+                <label>Phone number <input name="phone" type="tel" inputmode="tel" maxlength="20" placeholder="0712345678 or +255712345678" title="Use a Tanzania number such as 0712345678 or +255712345678." autocomplete="tel" required></label>
+                <p class="field-help">Enter a Tanzania number as 0712345678 or +255712345678. It will be saved in international format; it must not belong to another account.</p>
+                <label>Initial password <input name="password" type="password" minlength="6" autocomplete="new-password" aria-describedby="academic-password-help" required></label>
+                <p id="academic-password-help" class="field-help">At least 6 characters and no more than 72 UTF-8 bytes.</p>
+                <button class="button button-secondary" type="submit">Create academic master</button>
+              </form>
+              <div id="academic-master-list" aria-live="polite"></div>
+            </div>
+          </article>
+          <article id="staff-account-card" class="card">
+            <div class="directory-heading">
+              <div><h2>Manage staff accounts</h2><p class="muted">Update teacher and academic master contact details or reset a password.</p></div>
+            </div>
+            <div id="staff-account-list" aria-live="polite"></div>
+            <form id="staff-account-edit-form" class="stack staff-account-edit" hidden>
+              <h3 id="staff-account-edit-title">Edit staff account</h3>
+              <label>Username <input name="username" minlength="3" maxlength="50" pattern="[A-Za-z0-9._\-]+" autocomplete="username" required></label>
+              <label>Full name <input name="fullName" maxlength="160" required></label>
+              <label>Phone number <input name="phone" type="tel" inputmode="tel" maxlength="16" pattern="\+[1-9][0-9]{7,14}" title="Use international format, for example +255712345678." autocomplete="tel" required></label>
+              <label>New password (optional) <input name="password" type="password" minlength="6" autocomplete="new-password" aria-describedby="staff-account-password-help"></label>
+              <p id="staff-account-password-help" class="field-help">Leave blank to keep the current password. New passwords need at least 6 characters and no more than 72 UTF-8 bytes.</p>
+              <div class="staff-account-edit-actions">
+                <button class="button button-secondary" type="submit">Save account details</button>
+                <button id="staff-account-edit-cancel" class="button button-quiet" type="button">Cancel</button>
+              </div>
+            </form>
+          </article>
+        </section>
+      </section>
+
+      <section id="academic-view" hidden>
+        <section id="academic-attendance-review" class="admin-section dashboard-page" data-page-roles="academic_master" hidden>
+          <div class="section-heading">
+            <div><p class="eyebrow">Academic office</p><h2>Daily attendance review</h2></div>
+            <p class="muted">Review each complete class register, approve it for reporting, or return it to the teacher with a correction note.</p>
+          </div>
+          <section id="academic-welcome" class="admin-welcome role-welcome" hidden aria-label="Academic master dashboard welcome">
+            <div class="admin-welcome-copy">
+              <p class="admin-welcome-kicker">ACADEMIC WORKSPACE</p>
+              <h2>Karibu, <span id="academic-welcome-name">Academic master</span></h2>
+              <p>Review submitted class registers and follow attendance patterns across the school.</p>
+            </div>
+            <nav class="admin-quick-links" aria-label="Academic master quick actions">
+              <a href="#staff-report-card">
+                <span class="quick-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 3h10l4 4v14H5zM14 3v5h5M8 13h8M8 17h8"></path></svg></span>
+                <span><strong>Monthly report</strong><small>Review school-wide progress</small></span>
+                <span class="quick-link-arrow" aria-hidden="true">›</span>
+              </a>
+              <a href="#profile-page">
+                <span class="quick-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg></span>
+                <span><strong>My profile</strong><small>Check your contact details</small></span>
+                <span class="quick-link-arrow" aria-hidden="true">›</span>
+              </a>
+            </nav>
+          </section>
+          <article class="card">
+            <form id="attendance-review-filter" class="inline-form">
+              <label>Class <select id="academic-attendance-class" required></select></label>
+              <label>Date <input id="academic-attendance-date" type="date" required></label>
+              <button class="button" type="submit">Review register</button>
+            </form>
+            <div id="academic-attendance-results" aria-live="polite"><p class="empty">Choose a class and date to review submitted attendance.</p></div>
+          </article>
+        </section>
+      </section>
+
+      <section id="staff-report-card" class="card dashboard-page" data-page-roles="admin,teacher,academic_master" hidden>
+        <div class="report-heading">
+          <div><h2>Monthly summary</h2><p class="muted">Attendance counts for each student in the selected month.</p></div>
+          <div class="report-actions">
+            <label>Month <input id="staff-report-month" type="month" required></label>
+            <label>Class
+              <select id="report-class-filter">
+                <option value="">All classes</option>
+              </select>
+            </label>
+            <button id="export-report" class="button button-secondary" type="button" disabled>Download CSV</button>
+            <button id="print-report" class="button button-quiet" type="button" disabled>Print report</button>
+          </div>
+        </div>
+        <div class="print-report-heading">
+          <img src="assets/images/school-logo.png" alt="">
+          <div>
+            <h1>Msongola Secondary School</h1>
+            <p>Monthly attendance report · <span id="print-report-month"></span> · <span id="print-report-class">All classes</span></p>
+          </div>
+        </div>
+        <div id="staff-report"></div>
+      </section>
+
+      <section id="sms-logs-card" class="card dashboard-page" data-page-roles="admin" hidden>
+        <div class="report-heading">
+          <div><h2>Monthly SMS delivery</h2><p class="muted">Automated plain-text attendance updates sent to guardian phones.</p></div>
+          <label>Month <input id="sms-log-month" type="month" required></label>
+        </div>
+        <div id="sms-logs"></div>
+      </section>
+      <footer class="site-footer dashboard-footer">
+        <a href="tel:+255616957125">Phone Number: +255 616 957 125</a>
+        <a href="mailto:nassoroamour63@gmail.com">Email: nassoroamour63@gmail.com</a>
+        <span>Developed by: Nassoro Amour Shekulamba</span>
+      </footer>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
