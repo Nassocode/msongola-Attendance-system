@@ -87,9 +87,129 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin: 0 2px 16px; }
 .section-heading h2 { margin: 0; font-size: 1.35rem; }
 .section-heading p:last-child { max-width: 400px; margin: 0 0 2px; font-size: .88rem; }
-.attendance-card { border-top: 3px solid var(--accent); }
-.roster { display: grid; gap: 9px; }
-.roster-row { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(130px, 160px) minmax(140px, 220px); align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; }
+.attendance-card { border-top: 3px solid var(--accent); box-shadow: 0 12px 26px rgba(16, 43, 76, 0.06); }
+.teacher-dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 20px;
+}
+.teacher-summary-card {
+  display: grid;
+  gap: 8px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f5f8fd 100%);
+  box-shadow: 0 5px 18px rgba(16, 43, 76, 0.04);
+}
+.teacher-summary-highlight {
+  border-color: rgba(245, 184, 0, 0.45);
+  background: linear-gradient(180deg, #fffaf0 0%, #fff4d8 100%);
+}
+.teacher-summary-label {
+  color: var(--muted);
+  font-size: .73rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.teacher-summary-card strong {
+  color: var(--green-dark);
+  font-size: 1.05rem;
+  letter-spacing: -.02em;
+  line-height: 1.3;
+}
+.teacher-inline-form {
+  padding: 18px 18px 12px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(245, 184, 0, 0.08), rgba(255, 255, 255, 0.9));
+}
+.teacher-inline-form label {
+  min-width: 180px;
+}
+.teacher-inline-form .button {
+  min-width: 180px;
+}
+.academic-dashboard-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin: 0 0 22px;
+}
+.academic-summary-card {
+  display: grid;
+  gap: 7px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: linear-gradient(180deg, #ffffff 0%, #f6f9fd 100%);
+  box-shadow: 0 6px 18px rgba(16, 43, 76, 0.04);
+}
+.academic-summary-highlight {
+  border-color: rgba(23, 76, 60, 0.24);
+  background: linear-gradient(180deg, #edf9f4 0%, #e2f3eb 100%);
+}
+.academic-summary-label {
+  color: var(--muted);
+  font-size: .7rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.academic-summary-card strong {
+  color: var(--green-dark);
+  font-size: 1.05rem;
+  line-height: 1.35;
+}
+.academic-summary-card small {
+  color: var(--muted);
+  font-size: .78rem;
+  line-height: 1.45;
+}
+.academic-review-card {
+  border-top: 3px solid #1b4d80;
+  box-shadow: 0 12px 26px rgba(16, 43, 76, 0.06);
+}
+.academic-review-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.academic-review-header h2 {
+  margin: 0;
+  color: #183451;
+  font-size: 1.35rem;
+}
+.academic-review-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 12px;
+  border: 1px solid rgba(27, 77, 128, 0.18);
+  border-radius: 999px;
+  background: rgba(27, 77, 128, 0.06);
+  color: #184770;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.academic-review-filter {
+  margin-bottom: 18px;
+  padding: 16px 18px 10px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(180deg, rgba(27, 77, 128, 0.03), rgba(255,255,255,0.9));
+}
+.academic-review-filter .button {
+  min-width: 180px;
+}
+.roster { display: grid; gap: 9px; margin-top: 14px; }
+.roster-row { display: grid; grid-template-columns: minmax(120px, 1fr) minmax(130px, 160px) minmax(140px, 220px); align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: linear-gradient(180deg, #ffffff 0%, #f9fbfd 100%); }
+.roster-row:hover { border-color: rgba(23, 76, 60, 0.3); box-shadow: 0 6px 16px rgba(16, 43, 76, 0.05); }
 .roster-name small { display: block; color: var(--muted); margin-top: 3px; }
 .roster-notes { display: grid; gap: 5px; }
 .roster-notes-help { color: #9b3d31; font-size: .72rem; font-weight: 650; }
@@ -97,7 +217,16 @@ button:focus-visible, a:focus-visible { outline: 3px solid var(--accent); outlin
 .roster-search { max-width: 360px; }
 .roster-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
 .roster-actions .button { min-height: 40px; padding: 8px 12px; font-size: .82rem; }
-.attendance-progress { grid-column: 1 / -1; margin: 0; color: var(--muted); font-size: .82rem; font-weight: 650; }
+.attendance-progress {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(23, 76, 60, 0.04);
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 650;
+}
 .roster-row[hidden] { display: none; }
 .notice { border-radius: 9px; padding: 13px 16px; margin-bottom: 20px; background: #f0eadd; color: var(--green-dark); }
 .notice.error { background: #fbebea; color: var(--danger); }
@@ -143,6 +272,8 @@ tbody tr:hover { background: var(--surface-soft); }
 @media (max-width: 900px) {
   .shell { padding: 22px 20px 42px; }
   .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .teacher-dashboard-summary,
+  .academic-dashboard-summary { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
   body.teacher-dashboard .shell { padding: 16px 14px 34px; }

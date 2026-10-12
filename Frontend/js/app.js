@@ -77,9 +77,16 @@ function updateAttendanceProgress() {
     }
   });
   const total = selects.length;
-  $('#attendance-progress').textContent = total
+  const progressText = total
     ? `${total - unmarked} of ${total} students marked · Present ${counts.present} · Absent ${counts.absent} · Sick ${counts.sick}${unmarked ? ` · ${unmarked} remaining` : ''}${sickDetailsMissing ? ` · Add illness details for ${sickDetailsMissing} sick student(s)` : unmarked ? '' : ' · Complete register ready to submit'}`
     : '';
+  $('#attendance-progress').textContent = progressText;
+  const statusValue = $('#teacher-register-status');
+  if (statusValue) {
+    statusValue.textContent = total
+      ? (unmarked > 0 || sickDetailsMissing > 0 ? `${total - unmarked}/${total} marked` : 'Ready to submit')
+      : 'No register loaded';
+  }
   $('#save-attendance').disabled = !rosterMatchesSelection() || unmarked > 0 || sickDetailsMissing > 0;
 }
 
@@ -95,6 +102,8 @@ function invalidateRoster() {
   prompt.textContent = 'Load a class register to record attendance.';
   $('#roster').append(prompt);
   $('#attendance-progress').textContent = '';
+  const statusValue = $('#teacher-register-status');
+  if (statusValue) statusValue.textContent = 'No register loaded';
   $('#save-attendance').disabled = true;
 }
 
@@ -775,6 +784,7 @@ async function loadRoster(classId, date) {
       roster.append(row);
     });
     $('#roster-tools').hidden = students.length === 0;
+    updateTeacherSummary();
     updateAttendanceProgress();
   } catch (error) {
     roster.replaceChildren();
@@ -845,7 +855,23 @@ async function loadAdminOverview() {
     : 'No students enrolled yet.';
 }
 
+function updateTeacherSummary() {
+  const selectedClass = $('#attendance-class')?.selectedOptions[0]?.textContent?.trim();
+  const selectedDate = $('#attendance-date')?.value || '—';
+  const classValue = selectedClass && selectedClass !== 'Choose a class' ? selectedClass : 'Waiting for selection';
+  const registerStatus = loadedStudents.length
+    ? `${loadedStudents.length} students ready for review`
+    : 'No register loaded';
+  const currentClass = $('#teacher-current-class');
+  const currentDate = $('#teacher-current-date');
+  const registerStatusEl = $('#teacher-register-status');
+  if (currentClass) currentClass.textContent = classValue;
+  if (currentDate) currentDate.textContent = selectedDate === '—' ? '-' : selectedDate;
+  if (registerStatusEl) registerStatusEl.textContent = registerStatus;
+}
+
 function updateAttendanceForSelection() {
+  updateTeacherSummary();
   if (loadedStudents.length) invalidateRoster();
 }
 
@@ -931,6 +957,7 @@ async function refreshDashboard() {
   const month = currentMonth();
   $('#attendance-date').value = currentDate();
   $('#attendance-date').max = currentDate();
+  updateTeacherSummary();
   $('#staff-report-month').value = month;
   $('#sms-log-month').value = month;
   $('#academic-attendance-date').value = currentDate();

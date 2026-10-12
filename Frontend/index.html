@@ -278,8 +278,22 @@
               </a>
             </nav>
           </section>
+          <div class="teacher-dashboard-summary">
+            <div class="teacher-summary-card teacher-summary-highlight">
+              <span class="teacher-summary-label">Current class</span>
+              <strong id="teacher-current-class">Waiting for selection</strong>
+            </div>
+            <div class="teacher-summary-card">
+              <span class="teacher-summary-label">Register date</span>
+              <strong id="teacher-current-date">-</strong>
+            </div>
+            <div class="teacher-summary-card">
+              <span class="teacher-summary-label">Submission status</span>
+              <strong id="teacher-register-status">No register loaded</strong>
+            </div>
+          </div>
           <article class="card attendance-card">
-            <form id="attendance-filter" class="inline-form">
+            <form id="attendance-filter" class="inline-form teacher-inline-form">
               <label>Class <select id="attendance-class" required></select></label>
               <label>Date <input id="attendance-date" type="date" required></label>
               <button class="button" type="submit">Load assigned class</button>
@@ -448,8 +462,32 @@
               </a>
             </nav>
           </section>
-          <article class="card">
-            <form id="attendance-review-filter" class="inline-form">
+          <div class="academic-dashboard-summary" aria-label="Academic office summary">
+            <div class="academic-summary-card academic-summary-highlight">
+              <span class="academic-summary-label">Review queue</span>
+              <strong>Pending class registers</strong>
+              <small>Keep tabs on classes awaiting approval.</small>
+            </div>
+            <div class="academic-summary-card">
+              <span class="academic-summary-label">Approved today</span>
+              <strong>School-wide summary</strong>
+              <small>Approved submissions are used for reports and guardian SMS.</small>
+            </div>
+            <div class="academic-summary-card">
+              <span class="academic-summary-label">Needs attention</span>
+              <strong>Returned records</strong>
+              <small>Teachers receive feedback where corrections are required.</small>
+            </div>
+          </div>
+          <article class="card academic-review-card">
+            <div class="academic-review-header">
+              <div>
+                <p class="eyebrow">Register monitor</p>
+                <h2>Review submitted attendance</h2>
+              </div>
+              <span class="academic-review-tag">Academic office</span>
+            </div>
+            <form id="attendance-review-filter" class="inline-form academic-review-filter">
               <label>Class <select id="academic-attendance-class" required></select></label>
               <label>Date <input id="academic-attendance-date" type="date" required></label>
               <button class="button" type="submit">Review register</button>
